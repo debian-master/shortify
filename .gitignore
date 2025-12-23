@@ -1,4 +1,4 @@
-*backend*.env
+*backend/.env
 *__pycache__*
 *.pyc
 *shortify-env
