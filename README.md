@@ -5,22 +5,22 @@ A URL shortening service built using Django + Django REST Framework, designed fo
 This project was implemented as a take-home assignment to demonstrate backend design, API development, and containerized deployment.
 
 ✨ Features
-JWT authentication (register, login, refresh)
-Create short URLs (auto-generated or custom alias)
-Optional expiration (TTL)
-List and manage user-owned URLs
-Fast redirect endpoint
-Click tracking:
-Timestamp
-Referrer
-Browser / OS
-IP & country (GeoIP)
+- JWT authentication (register, login, refresh)
+- Create short URLs (auto-generated or custom alias)
+- Optional expiration (TTL)
+- List and manage user-owned URLs
+- Fast redirect endpoint
+- Click tracking:
+  - Timestamp
+  - Referrer
+  - Browser / OS
+  - IP & country (GeoIP)
 
 🏗️ Architecture Overview
 Client
   │
   ▼
-Django + DRF (Gunicorn)
+Django + DRF
   │
   ├── Auth (JWT)
   ├── URL APIs
@@ -38,7 +38,6 @@ Python 3.12
 Django, Django REST Framework
 SimpleJWT
 PostgreSQL 18
-Gunicorn (Not implemented yet)
 Docker & Docker Compose
 
 🚀 Setup & Running Instructions
@@ -47,8 +46,8 @@ Docker
 Docker Compose
 
 Steps
-git clone git@github.com:<your-username>/url-shortener-service.git
-cd url-shortener-service
+git clone https://github.com/<your-username>/shortify.git
+cd shotify
 cp backend/.env.example backend/.env
 docker-compose up --build
 
@@ -56,11 +55,18 @@ Run migrations:
 docker-compose exec web python manage.py migrate
 
 📄 API Documentation
-Swagger UI: http://localhost:8000/api/schema/swagger-ui/
+Swagger UI: http://localhost:8000/api/docs/
+
+path('admin/', admin.site.urls),
+    path("api/urls/", include("urls.urls"), name='urls'),
+    path("api/auth/", include("users.urls")),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/docs/", SpectacularSwaggerView.as_view()),
 
 📌 Core Endpoints
 POST /api/auth/register/
 POST /api/auth/login/
+POST /api/auth/token/refresh/
 POST /api/urls/
 GET /api/urls/
 GET /api/urls/{short_code}/
@@ -80,6 +86,7 @@ Async click tracking (Celery)
 Rate limiting
 Aggregated analytics APIs
 Nginx reverse proxy
+Instead of django's local server using Gunicorn
 
 ⏱️ Approximate Time Spent
 ~6-8 hours
