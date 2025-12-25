@@ -29,7 +29,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# TODO (Chetan) change this to only local setup
+ALLOWED_HOSTS = ["*"]  # for local dev
 
 
 # Application definition
