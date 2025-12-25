@@ -1,10 +1,14 @@
-# shortify
+# Shortify
 
-🔗 URL Shortener Backend Service
-A URL shortening service built using Django + Django REST Framework, designed for high read traffic, secure user access, and basic analytics.
+🔗 **URL Shortener Backend Service**
+
+A URL shortening service built using **Django** and **Django REST Framework**, designed for high read traffic, secure user access, and basic analytics.  
 This project was implemented as a take-home assignment to demonstrate backend design, API development, and containerized deployment.
 
-✨ Features
+---
+
+## ✨ Features
+
 - JWT authentication (register, login, refresh)
 - Create short URLs (auto-generated or custom alias)
 - Optional expiration (TTL)
@@ -16,52 +20,59 @@ This project was implemented as a take-home assignment to demonstrate backend de
   - Browser / OS
   - IP & country (GeoIP)
 
-🏗️ Architecture Overview
-Client
-  │
-  ▼
-Django + DRF
-  │
-  ├── Auth (JWT)
-  ├── URL APIs
-  ├── Redirect Handler
-  │
-  ▼
-PostgreSQL
+---
 
-Stateless backend using JWT
-Read-heavy redirect path optimized with indexed lookups
-Docker Compose for service networking
+## 🏗️ Architecture Overview
 
-🧰 Tech Stack
-Python 3.12
-Django, Django REST Framework
-SimpleJWT
-PostgreSQL 18
-Docker & Docker Compose
+The backend is designed to be stateless and optimized for read-heavy operations.
 
-🚀 Setup & Running Instructions
-Prerequisites
-Docker
-Docker Compose
+```mermaid
+graph TD
+    A[Client Request: /short_code] --> B{Redirect Handler};
+    B --> C[Indexed Lookup in PostgreSQL];
+    B --> D[Click Tracking (Synchronous)];
+    C --> E{If Found?};
+    E -- Yes --> F[302 Redirect to Long URL];
+    E -- No --> G[404 Not Found];
+```
 
-Steps
+
+- Stateless backend using JWT
+- Read-heavy redirect path optimized with indexed lookups
+- Docker Compose used for service orchestration
+
+---
+
+## 🧰 Tech Stack
+
+- Python 3.12
+- Django, Django REST Framework
+- SimpleJWT
+- PostgreSQL 18
+- Docker & Docker Compose
+
+---
+
+## 🚀 Setup & Running Instructions
+
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Steps
+
+```bash
 git clone https://github.com/<your-username>/shortify.git
-cd shotify
+cd shortify
 cp backend/.env.example backend/.env
 docker-compose up --build
+```
 
 Run migrations:
 docker-compose exec web python manage.py migrate
 
 📄 API Documentation
 Swagger UI: http://localhost:8000/api/docs/
-
-path('admin/', admin.site.urls),
-    path("api/urls/", include("urls.urls"), name='urls'),
-    path("api/auth/", include("users.urls")),
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/", SpectacularSwaggerView.as_view()),
 
 📌 Core Endpoints
 POST /api/auth/register/
@@ -74,19 +85,19 @@ DELETE /api/urls/{short_code}/
 GET /{short_code} (redirect)
 
 ⚖️ Key Design Decisions & Trade-offs
-Django + DRF for clean, maintainable APIs
-PostgreSQL for relational integrity and indexing
-JWT for stateless authentication
-Click tracking handled synchronously (simpler, slight overhead)
-No caching layer to keep scope focused
+- Django + DRF for clean, maintainable APIs
+- PostgreSQL for relational integrity and indexing
+- JWT for stateless authentication
+- Click tracking handled synchronously (simpler, slight overhead)
+- No caching layer to keep scope focused
 
 🚧 Improvements With More Time
-Redis caching for redirects
-Async click tracking (Celery)
-Rate limiting
-Aggregated analytics APIs
-Nginx reverse proxy
-Instead of django's local server using Gunicorn
+- Redis caching for redirects
+- Async click tracking (Celery)
+- Rate limiting
+- Aggregated analytics APIs
+- Nginx reverse proxy
+- Using Gunicorn instead of Django’s local server
 
 ⏱️ Approximate Time Spent
-~6-8 hours
+~5-7 hours
