@@ -138,6 +138,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+GEOIP_PATH = os.path.join(BASE_DIR, "geoip")
+
 from datetime import timedelta
 
 REST_FRAMEWORK = {
@@ -148,6 +152,8 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
 }
 
 # Need to change timedelta
