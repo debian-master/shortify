@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: url_shortener_web
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    env_file:
+      - backend/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: url_shortener_db
+    environment:
+      POSTGRES_DB: shortener
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

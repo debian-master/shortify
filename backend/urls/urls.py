@@ -6,7 +6,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path("", ShortURLListCreateView.as_view()),
-    path("<str:short_code>/", ShortURLDetailView.as_view()),
-    path("redirect/<str:short_code>/", ShortURLRedirectView.as_view())
+    path("", ShortURLListCreateView.as_view(), name="url-list-create"),
+    path("<str:short_code>/", ShortURLDetailView.as_view(), name="url-detail"),
+    path("redirect/<str:short_code>/", ShortURLRedirectView.as_view(), name="url-redirect")
 ]

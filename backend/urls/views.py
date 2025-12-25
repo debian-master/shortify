@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 
 from django.shortcuts import get_object_or_404, redirect
 
@@ -33,6 +33,12 @@ class ShortURLDetailView(generics.RetrieveDestroyAPIView):
     def get_queryset(self):
         return ShortURL.objects.filter(user=self.request.user)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.is_active = False
+        instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class ShortURLRedirectView(APIView):
     authentication_classes = []
@@ -55,7 +61,6 @@ class ShortURLRedirectView(APIView):
         # ---- Analytics ----
         user_agent_str = request.META.get("HTTP_USER_AGENT", "")
         ua = parse(user_agent_str)
-        print('*** ',get_client_ip(request))
 
         ClickEvent.objects.create(
             short_url=short_url,
