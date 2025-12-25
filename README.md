@@ -25,17 +25,25 @@ This project was implemented as a take-home assignment to demonstrate backend de
 ## 🏗️ Architecture Overview
 
 The backend is designed to be stateless and optimized for read-heavy operations.
-
-```mermaid
-graph TD
-    A[Client Request: /short_code] --> B{Redirect Handler};
-    B --> C[Indexed Lookup in PostgreSQL];
-    B --> D[Click Tracking (Synchronous)];
-    C --> E{If Found?};
-    E -- Yes --> F[302 Redirect to Long URL];
-    E -- No --> G[404 Not Found];
 ```
-
++--------+
+| Client |
++--------+
+     |
+     v
++--------------+
+| Django + DRF |
++--------------+
+   |     |     |
+   v     v     v
+ Auth  URL   Redirect
+ (JWT) APIs  Handler
+       |
+       v
++--------------+
+| PostgreSQL  |
++--------------+
+```
 
 - Stateless backend using JWT
 - Read-heavy redirect path optimized with indexed lookups
