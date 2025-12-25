@@ -3,7 +3,7 @@
 🔗 **URL Shortener Backend Service**
 
 A URL shortening service built using **Django** and **Django REST Framework**, designed for high read traffic, secure user access, and basic analytics.  
-This project was implemented as a take-home assignment to demonstrate backend design, API development, and containerized deployment.
+This project was implemented to demonstrate backend design, API development, and containerized deployment.
 
 ---
 
