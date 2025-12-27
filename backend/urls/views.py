@@ -72,4 +72,3 @@ class ShortURLRedirectView(APIView):
         )
 
         return redirect(short_url.original_url)
-

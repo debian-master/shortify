@@ -5,10 +5,13 @@ from .utils import generate_short_code
 
 class ShortURLCreateSerializer(serializers.ModelSerializer):
     custom_alias = serializers.CharField(required=False, allow_blank=True)
+    short_code = serializers.CharField(read_only=True)
 
     class Meta:
         model = ShortURL
-        fields = ("original_url", "custom_alias", "expires_at")
+        fields = (
+            "original_url", "custom_alias", "expires_at", "short_code"
+        )
 
     def create(self, validated_data):
         user = self.context["request"].user
